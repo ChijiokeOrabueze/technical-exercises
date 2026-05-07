@@ -10,10 +10,11 @@ class UserController {
 
   findUser = async (
     req: Request<{ userId: string }, {}, {}, {}>,
-    res: Response
+    res: Response,
   ) => {
     try {
-      const data = await this.userService.findUser(Number(req.params.userId));
+      // const data = await this.userService.findUser(Number(req.params.userId));
+      const data = { user: 1 };
 
       res.status(200).json({
         message: "User fetched",
