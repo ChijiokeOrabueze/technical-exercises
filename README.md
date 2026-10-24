@@ -25,3 +25,13 @@ controllers, services, and repositories. Incoming requests are validated with
 Zod, and the app applies Helmet, CORS, and Redis-backed rate limiting before
 they reach a handler. Persistence is set up with Sequelize and PostgreSQL. The
 feature currently in place is a user lookup exposed at `/api/v1/users/:userId`.
+
+### Tamper-Free Queue
+
+An in-process queue whose producer cannot inspect or drain it. Construction
+hands the producer only an `enqueue` function; the queue and `dequeue` stay
+with the consumer. A small HTTP server uses that function to accept JSON
+bodies on port 3000, and a configurable number of workers pull items off the
+queue. If a worker is already waiting, the item is handed over immediately.
+Otherwise it stays buffered until the next `dequeue`. A companion client posts
+one JSON payload to that server.
